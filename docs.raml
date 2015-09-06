@@ -1,0 +1,27 @@
+#%RAML 0.8
+ 
+title: Bible Gateway
+baseUri: https://agile-scrubland-2714.herokuapp.com/
+version: v1
+
+/passage/{translation}/{book}/{chapter}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "translation": "nivuk",
+                  "book": "john",
+                  "chapter": "3",
+                  "verses": [
+                    {
+                    "verse": 1,
+                    "lines": [
+                      {
+                        "text": "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life. ",
+                        "indented": false
+                      }
+                    ]
+                }]}

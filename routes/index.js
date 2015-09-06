@@ -1,9 +1,13 @@
 var express = require('express');
 var request = require('request');
 var cheerio = require('cheerio');
-var router = express.Router();
+var raml2html = require('raml2html');
+var path = require('path');
 
 var VERSE_REGEX = /(\d+)\s(.*)/;
+
+var configWithDefaultTemplates = raml2html.getDefaultConfig();
+var router = express.Router();
 
 router.get('/passage/:translation/:book/:chapter', function(req, res, next) {
 	var translation = req.params.translation;
@@ -53,6 +57,17 @@ router.get('/passage/:translation/:book/:chapter', function(req, res, next) {
 			};
 			res.json(json);
 		}
+	});
+});
+
+
+router.get('/docs', function(req, res, next) {
+	var ramlFile = path.join(__dirname, '..', 'docs.raml');
+	raml2html.render(ramlFile, configWithDefaultTemplates).then(function(result) {
+		res.send(result);
+	}, function(error) {
+			res.status(500);
+			res.send('Error generating docs: ' + error);
 	});
 });
 
